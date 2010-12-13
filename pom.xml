@@ -47,7 +47,9 @@
     </developers>
 
     <scm>
-        <connection>scm:</connection>
+        <connection>scm:git:git@github.com:javageek/JIRCD.git</connection>
+        <url>scm:git:git@github.com:javageek/JIRCD.git</url>
+        <developerConnection>scm:git:git@github.com:javageek/JIRCD.git</developerConnection>
     </scm>
 
     <modules>
