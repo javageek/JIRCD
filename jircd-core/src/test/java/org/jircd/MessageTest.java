@@ -131,4 +131,18 @@ public class MessageTest {
 
         assertEquals(TEST_PREFIX_COMMAND_PARAMETER_LASTPARAMETER, msg.toString());
     }
+
+    @Test
+    public void testGetParameterSize() {
+        Message msg = new Message();
+
+        assertNull(msg.getParameters());
+        assertEquals(0, msg.getParameterSize());
+
+        msg.addParameter(CHN);
+
+        assertNotNull(msg.getParameters());
+        assertArrayEquals(new String[]{CHN}, msg.getParameters().toArray());
+        assertEquals(1, msg.getParameterSize());
+    }
 }

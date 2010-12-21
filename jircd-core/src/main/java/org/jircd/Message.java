@@ -17,7 +17,6 @@
 package org.jircd;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 /** @author <a href="mailto:github@javageek.org">Guillermo Castro</a> */
@@ -89,9 +88,8 @@ public class Message {
             buf.append(command).append(MSG_SEPARATOR);
         }
         if (null != parameters && !parameters.isEmpty()) {
-            Iterator<String> iter = parameters.iterator();
-            while(iter.hasNext()) {
-                buf.append(iter.next()).append(MSG_SEPARATOR);
+            for (String parameter : parameters) {
+                buf.append(parameter).append(MSG_SEPARATOR);
             }
         }
         if (null != lastParameter) {
@@ -99,11 +97,6 @@ public class Message {
         }
 
         return buf.toString().trim();
-    }
-
-    @Override
-    public int hashCode() {
-        return toString().hashCode();
     }
 
     /**
@@ -165,6 +158,11 @@ public class Message {
         parameters.add(parameter);
     }
 
+    /**
+     * Get the size of the parameter list.
+     *
+     * @return the parameterSize (type int) of this Message object.
+     */
     public int getParameterSize() {
         return null == parameters ? 0 : parameters.size();
     }
