@@ -16,24 +16,22 @@
 
 package org.jircd;
 
-import org.junit.Test;
-
-import static org.junit.Assert.assertEquals;
-
 /** @author <a href="mailto:github@javageek.org">Guillermo Castro</a> */
-public class MessageTypeTest implements TestConstants {
+public interface TestConstants {
+    String PRE = ":";
+    String SRV = "irc.server.com";
+    String SPC = " ";
+    String USR = "nickname!~user@domain.com";
+    String CMD = "PRIVMSG";
+    String CHN = "#channel";
+    String LST = "Hello  World!";
+    String CTCP_MSG = "\u0001ACTION waves\u0001";
+    String INVALID_CMD = "TXT";
+    String CRLF = "\r\n";
 
-    @Test
-    public void testFromCode() throws Exception {
-        MessageType type = MessageType.fromCommand(CMD);
-        assertEquals(MessageType.PRIVMSG, type);
-        assertEquals(CMD, type.getCommand());
-    }
-
-    @Test
-    public void testFromInvalidCode() throws Exception {
-        MessageType type = MessageType.fromCommand(INVALID_CMD);
-        assertEquals(MessageType.UNKNOWN, type);
-    }
-
+    String CODE_STR = "001";
+    String VERSION_CODE_STR = "351";
+    String INVALID_CODE_STR = "TXT";
+    int CODE = 1;
+    int INVALID_CODE = -1;
 }

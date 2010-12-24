@@ -24,24 +24,17 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
 /** @author <a href="mailto:github@javageek.org">Guillermo Castro</a> */
-public class MessageTest {
-    private static final String PRE = ":";
-    private static final String SRV = "irc.server.com";
-    private static final String SPC = " ";
-    private static final String USR = "nickname!~user@hostname";
-    private static final String CMD = "PRIVMSG";
-    private static final String CHN = "#channel";
-    private static final String LST = "Hello  World!";
-
+public class MessageTest implements TestConstants {
     private static final String TEST_WHITESPACE = SPC;
     private static final String TEST_COMMAND = CMD;
     private static final String TEST_COMMAND_PARAMETER = CMD + SPC + CHN;
-    private static final String TEST_COMMAND_LASTPARAMETER = CMD + SPC + PRE + SRV;
-    private static final String TEST_COMMAND_PARAMETER_LASTPARAMETER = CMD + SPC + CHN + SPC + PRE + LST;
+    private static final String TEST_COMMAND_LAST_PARAMETER = CMD + SPC + PRE + SRV;
+    private static final String TEST_COMMAND_PARAMETER_LAST_PARAMETER = CMD + SPC + CHN + SPC + PRE + LST;
     private static final String TEST_PREFIX_COMMAND = PRE + SRV + SPC + CMD;
     private static final String TEST_PREFIX_COMMAND_PARAMETER = PRE + USR + SPC + CMD + SPC + CHN;
-    private static final String TEST_PREFIX_COMMAND_LASTPARAMETER = PRE + USR + SPC + CMD + SPC + PRE + LST;
-    private static final String TEST_PREFIX_COMMAND_PARAMETER_LASTPARAMETER = PRE + USR + SPC + CMD + SPC + CHN + SPC + PRE + LST;
+    private static final String TEST_PREFIX_COMMAND_LAST_PARAMETER = PRE + USR + SPC + CMD + SPC + PRE + LST;
+    private static final String TEST_PREFIX_COMMAND_PARAMETER_LAST_PARAMETER = PRE + USR + SPC + CMD + SPC + CHN + SPC + PRE + LST;
+    private static final String TEST_CTCP_MSG = PRE + USR + SPC + CMD + SPC + CHN + SPC + PRE + CTCP_MSG;
 
     @Test
     public void testWhitespace() {
@@ -67,7 +60,7 @@ public class MessageTest {
 
     @Test
     public void testCommandLastParameter() {
-        Message msg = Message.parseFrom(TEST_COMMAND_LASTPARAMETER);
+        Message msg = Message.parseFrom(TEST_COMMAND_LAST_PARAMETER);
         assertNotNull(msg);
         assertEquals(CMD, msg.getCommand());
         assertEquals(SRV, msg.getLastParameter());
@@ -75,7 +68,7 @@ public class MessageTest {
 
     @Test
     public void testCommandParameterLastParameter() {
-        Message msg = Message.parseFrom(TEST_COMMAND_PARAMETER_LASTPARAMETER);
+        Message msg = Message.parseFrom(TEST_COMMAND_PARAMETER_LAST_PARAMETER);
         assertNotNull(msg);
         assertEquals(CMD, msg.getCommand());
         assertNotNull(msg.getParameters());
@@ -103,7 +96,7 @@ public class MessageTest {
 
     @Test
     public void testPrefixCommandLastParameter() {
-        Message msg = Message.parseFrom(TEST_PREFIX_COMMAND_LASTPARAMETER);
+        Message msg = Message.parseFrom(TEST_PREFIX_COMMAND_LAST_PARAMETER);
         assertNotNull(msg);
         assertEquals(USR, msg.getPrefix());
         assertEquals(CMD, msg.getCommand());
@@ -112,7 +105,7 @@ public class MessageTest {
 
     @Test
     public void testPrefixCommandParameterLastParameter() {
-        Message msg = Message.parseFrom(TEST_PREFIX_COMMAND_PARAMETER_LASTPARAMETER);
+        Message msg = Message.parseFrom(TEST_PREFIX_COMMAND_PARAMETER_LAST_PARAMETER);
         assertNotNull(msg);
         assertEquals(USR, msg.getPrefix());
         assertEquals(CMD, msg.getCommand());
@@ -124,12 +117,31 @@ public class MessageTest {
     @Test
     public void testToString() {
         Message msg = new Message();
+        assertEquals("", msg.toString());
+
+        msg.setCommand(CMD);
+        assertEquals(TEST_COMMAND, msg.toString());
+
+        msg.setPrefix(SRV);
+        assertEquals(TEST_PREFIX_COMMAND, msg.toString());
+
+        msg.setPrefix(USR);
+        msg.addParameter(CHN);
+        assertEquals(TEST_PREFIX_COMMAND_PARAMETER, msg.toString());
+
+        msg.setLastParameter(LST);
+        assertEquals(TEST_PREFIX_COMMAND_PARAMETER_LAST_PARAMETER, msg.toString());
+    }
+
+    @Test
+    public void testCTCPtoString() throws Exception {
+        Message msg = new Message();
         msg.setPrefix(USR);
         msg.setCommand(CMD);
         msg.addParameter(CHN);
-        msg.setLastParameter(LST);
+        msg.setLastParameter(CTCP_MSG);
 
-        assertEquals(TEST_PREFIX_COMMAND_PARAMETER_LASTPARAMETER, msg.toString());
+        assertEquals(TEST_CTCP_MSG, msg.toString());
     }
 
     @Test
@@ -144,5 +156,16 @@ public class MessageTest {
         assertNotNull(msg.getParameters());
         assertArrayEquals(new String[]{CHN}, msg.getParameters().toArray());
         assertEquals(1, msg.getParameterSize());
+    }
+
+    @Test
+    public void testMessageType() throws Exception {
+        Message msg = new Message();
+
+        assertEquals(MessageType.UNKNOWN, msg.getMessageType());
+
+        msg.setMessageType(MessageType.PRIVMSG);
+        assertEquals(MessageType.PRIVMSG, msg.getMessageType());
+        assertEquals(MessageType.PRIVMSG.getCommand(), msg.getCommand());
     }
 }

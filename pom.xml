@@ -99,6 +99,13 @@
                 <version>${junit.version}</version>
                 <scope>test</scope>
             </dependency>
+
+            <!-- -->
+            <dependency>
+                <groupId>org.jircd</groupId>
+                <artifactId>jircd-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
