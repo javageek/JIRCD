@@ -59,14 +59,15 @@
 
     <properties>
         <!-- Maven targets -->
-        <maven.compile.source>1.5</maven.compile.source>
-        <maven.compile.target>1.5</maven.compile.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compile.source>1.8</maven.compile.source>
+        <maven.compile.target>1.8</maven.compile.target>
 
         <!-- Library versions -->
-        <mina.version>2.0.1</mina.version>
-        <slf4j.version>1.6.1</slf4j.version>
-        <log4j.version>1.2.16</log4j.version>
-        <junit.version>4.8.2</junit.version>
+        <mina.version>2.0.13</mina.version>
+        <slf4j.version>1.7.21</slf4j.version>
+        <log4j.version>2.6.2</log4j.version>
+        <junit.version>4.12</junit.version>
     </properties>
 
     <dependencyManagement>
@@ -82,14 +83,8 @@
                 <version>${slf4j.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.slf4j</groupId>
-                <artifactId>slf4j-log4j12</artifactId>
-                <version>${slf4j.version}</version>
-                <scope>runtime</scope>
-            </dependency>
-            <dependency>
-                <groupId>log4j</groupId>
-                <artifactId>log4j</artifactId>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-slf4j-impl</artifactId>
                 <version>${log4j.version}</version>
                 <scope>runtime</scope>
             </dependency>
