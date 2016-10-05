@@ -16,13 +16,24 @@
 
 package org.jircd;
 
+import java.util.UUID;
+
 /** @author <a href="mailto:github@javageek.org">Guillermo Castro</a> */
 public class User {
+    private UUID id;
     private String nickname;
     private String username;
     private String hostname;
     // TODO: Replace with a different entity
     private String usermode;
+
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
 
     /**
      * Returns the nickname for the user.
